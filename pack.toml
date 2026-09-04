@@ -18,7 +18,7 @@ type = "local"
 path = "../idris2-QuickCheck"
 ipkg = "idris2-QuickCheck.ipkg"
 
-[custom.all.idris2-Boole]
+[custom.all.Idris2-Multiset-Binary]
 type = "local"
-path = "../Idris2-Boole"
-ipkg = "idris2-Boole.ipkg"
+path = "../Idris2-Multiset-Binary"
+ipkg = "Idris2-Multiset-Binary.ipkg"
