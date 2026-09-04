@@ -10,10 +10,11 @@
 module Dihedrons_And_Infinitesimals
 
 import QuickCheck
-import Math.BoxInt
+import Core.BoxInt
 import Math.Multiset
-import Math.DualComplex
 import Math.Infinitesimal
+import Core.VexelMaxel
+import Core.Polynumber
 import Math.Dihedron.Dihedron
 import Math.Dihedron.Subalgebras
 
@@ -33,19 +34,19 @@ Given any field $F$, the $2 \times 2$ matrix algebra $M_2(F)$ contains three can
 public export
 prop_subalgebraSignatures : Property
 prop_subalgebraSignatures =
-  let a = the BoxInt 5
-      b = the BoxInt 3
+  let a = intToBoxInt 5
+      b = intToBoxInt 3
       qBlue  = quadranceDihedron (toDihedronBlue (MkBlue a b))
       qRed   = quadranceDihedron (toDihedronRed (MkRed a b))
       qGreen = quadranceDihedron (toDihedronGreen (MkGreen a b))
-  in property (qBlue == 34 && qRed == 16 && qGreen == 16)
+  in property (unwrapBox qBlue == 34 && unwrapBox qRed == 16 && unwrapBox qGreen == 16)
 ```
 
 ---
 
 ## 2. 🎛️ Dual Complex Algebraic Derivative
 
-Evaluating a `PolyNumber` at a dual complex number $a + b\varepsilon$ yields exact differentiation without limits:
+Evaluating a `Polynumber` at a dual number $a + b\varepsilon$ yields exact differentiation without limits:
 
 $$P(a + b\varepsilon) = P(a) + P'(a)\cdot b\varepsilon$$
 
@@ -54,11 +55,10 @@ $$P(a + b\varepsilon) = P(a) + P'(a)\cdot b\varepsilon$$
 public export
 prop_dualDerivativeTheorem : Property
 prop_dualDerivativeTheorem =
-  let -- P(α) = 4 + 2α + α³  => P'(α) = 2 + 3α²
-      poly = AddM 0 4 (AddM 1 2 (AddM 3 1 ZeroM))
-      dualVal = MkDual 2 1
-      res = evalDual poly dualVal
+  let -- P(x) = 4 + 2x + x³  => P'(x) = 2 + 3x²
+      poly = MkPolynumber [intToBoxInt 4, intToBoxInt 2, intToBoxInt 0, intToBoxInt 1]
+      (val, deriv) = autoDiffAt poly (intToBoxInt 2)
       -- P(2) = 4 + 4 + 8 = 16
       -- P'(2) = 2 + 12 = 14
-  in property (res == MkDual 16 14)
+  in property (unwrapBox val == 16 && unwrapBox deriv == 14)
 ```

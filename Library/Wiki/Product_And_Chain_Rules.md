@@ -10,10 +10,10 @@
 module Product_And_Chain_Rules
 
 import QuickCheck
-import Math.BoxInt
+import Core.BoxInt
 import Math.Multiset
-import Math.DualComplex
 import Math.Infinitesimal
+import Core.Polynumber
 
 %default total
 ```
@@ -21,16 +21,16 @@ import Math.Infinitesimal
 ## 1. 📐 Product Rule Verification
 
 ```idris
-||| Verifies algebraic product rule for PolyNumbers P and Q
+||| Verifies algebraic product rule for Polynumbers P and Q
 public export
 prop_productRuleAlgebraic : Property
 prop_productRuleAlgebraic =
-  let p = AddM 0 3 (AddM 1 2 ZeroM) -- 3 + 2α
-      q = AddM 1 1 (AddM 2 1 ZeroM) -- α + α²
-      pq = mulPoly p q
-      derivPQ = derivePoly pq
-      p' = derivePoly p
-      q' = derivePoly q
-      rhs = addMultiset (mulPoly p' q) (mulPoly p q')
-  in property (annihilateMultiset derivPQ == annihilateMultiset rhs)
+  let p = MkPolynumber [intToBoxInt 3, intToBoxInt 2] -- 3 + 2x
+      q = MkPolynumber [intToBoxInt 0, intToBoxInt 1, intToBoxInt 1] -- x + x²
+      pq = mulPolynumber p q
+      derivPQ = formalDerivativePolynumber pq
+      p' = formalDerivativePolynumber p
+      q' = formalDerivativePolynumber q
+      rhs = addPolynumber (mulPolynumber p' q) (mulPolynumber p q')
+  in property (derivPQ == rhs)
 ```

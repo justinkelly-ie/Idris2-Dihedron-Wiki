@@ -1,8 +1,12 @@
 package idris2-Dihedron-Wiki
-version = 0.1.0
+version = 0.2.0
 executable = dihedronwiki
 
-depends = base, linear, idris2-QuickCheck, idris2-Multiset, idris2-Dihedron
+depends = base, linear, idris2-QuickCheck
+        , Idris2-Multiset-Core
+        , Idris2-Multiset-Transform
+        , Idris2-Geometry
+        , idris2-Dihedron
 
 sourcedir = "Library/Wiki"
 
