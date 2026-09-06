@@ -12,20 +12,21 @@ import public QuickCheck
 
 %default total
 
-||| Property 1: Pauli Anti-Commutativity Law (ZX = -XZ)
+||| Property 1: Pauli Anti-Commutativity Law on Blue Quantum Subspace (ZX = -XZ)
 ||| Pauli X swaps scalarA and blueB.
 ||| Pauli Z negates blueB.
 public export
-prop_pauliAntiCommutation : Dihedron -> Bool
-prop_pauliAntiCommutation d =
-  let pauliX = \val => MkDihedronVal (blueB val) (scalarA val) (redC val) (greenD val)
+prop_pauliAntiCommutation : BlueComplex -> Bool
+prop_pauliAntiCommutation blueVal =
+  let d = toDihedronBlue blueVal
+      pauliX = \val => MkDihedronVal (blueB val) (scalarA val) (redC val) (greenD val)
       pauliZ = \val => MkDihedronVal (scalarA val) (-blueB val) (redC val) (greenD val)
       zx = pauliZ (pauliX d)
       xz = pauliX (pauliZ d)
   in zx == negDihedron xz
 
-||| Property 2: Discrete Spin-1/2 Commutator Law [i, j] = 2k
-||| Verifies that the commutator of Blue (i) and Red (j) basis elements yields twice Green (2k).
+||| Property 2: Discrete Spin-1/2 Commutator Law [i, j] = -2k
+||| Verifies that the commutator of Blue (i) and Red (j) basis elements yields minus twice Green (-2k).
 public export
 prop_spinCommutator : Bool
 prop_spinCommutator =
@@ -34,8 +35,8 @@ prop_spinCommutator =
       ij    = mulDihedron elemI elemJ
       ji    = mulDihedron elemJ elemI
       comm  = subDihedron ij ji
-      twoK  = MkDihedron 0 0 0 2
-  in comm == twoK
+      minusTwoK = MkDihedron 0 0 0 (-2)
+  in comm == minusTwoK
 
 ||| Property 3: Quadrance Norm Conservation under Unitary Blue Phase Rotation
 ||| Quadrance Q(D) = a² + b² - c² - d² is invariant under blue phase multiplication.
@@ -66,9 +67,9 @@ prop_monadicPathBinding d =
 public export
 qc_pauliAntiCommutation : Property
 qc_pauliAntiCommutation =
-  let d1 = MkDihedron 5 3 2 1
-      d2 = MkDihedron 0 (-2) 4 7
-  in property (prop_pauliAntiCommutation d1 && prop_pauliAntiCommutation d2)
+  let b1 = MkBlue (intToBoxInt 5) (intToBoxInt 3)
+      b2 = MkBlue (intToBoxInt 0) (intToBoxInt (-2))
+  in property (prop_pauliAntiCommutation b1 && prop_pauliAntiCommutation b2)
 
 ||| QuickCheck wrapper property for Spin-1/2 commutator
 public export
