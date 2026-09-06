@@ -12,6 +12,7 @@ sourcedir = "Library/Wiki"
 
 modules = Dihedrons_And_Infinitesimals,
           Product_And_Chain_Rules,
-          Finite_Field_Calculus
+          Finite_Field_Calculus,
+          QuantumMechanicsAlgebra
 
 main = Main

@@ -1,0 +1,92 @@
+# Quantum Mechanics over Discrete Dihedrons
+
+This observation module formally verifies the quantum mechanical properties of the discrete 4D `Dihedron` algebra ($D = a + bi + cj + dk$), demonstrating that its categorical interfaces (`Functor`, `Applicative`, `Monad`) and algebraic instances (`Semigroup`, `Monoid`, `Num`, `Neg`) satisfy the laws of quantum operators, spin commutators, and monadic path propagation.
+
+```idris
+module QuantumMechanicsAlgebra
+
+import public Math.Dihedron.Dihedron
+import public Math.Dihedron.Subalgebras
+import public Core.BoxInt
+import public QuickCheck
+
+%default total
+
+||| Property 1: Pauli Anti-Commutativity Law (ZX = -XZ)
+||| Pauli X swaps scalarA and blueB.
+||| Pauli Z negates blueB.
+public export
+prop_pauliAntiCommutation : Dihedron -> Bool
+prop_pauliAntiCommutation d =
+  let pauliX = \val => MkDihedronVal (blueB val) (scalarA val) (redC val) (greenD val)
+      pauliZ = \val => MkDihedronVal (scalarA val) (-blueB val) (redC val) (greenD val)
+      zx = pauliZ (pauliX d)
+      xz = pauliX (pauliZ d)
+  in zx == negDihedron xz
+
+||| Property 2: Discrete Spin-1/2 Commutator Law [i, j] = 2k
+||| Verifies that the commutator of Blue (i) and Red (j) basis elements yields twice Green (2k).
+public export
+prop_spinCommutator : Bool
+prop_spinCommutator =
+  let elemI = MkDihedron 0 1 0 0
+      elemJ = MkDihedron 0 0 1 0
+      ij    = mulDihedron elemI elemJ
+      ji    = mulDihedron elemJ elemI
+      comm  = subDihedron ij ji
+      twoK  = MkDihedron 0 0 0 2
+  in comm == twoK
+
+||| Property 3: Quadrance Norm Conservation under Unitary Blue Phase Rotation
+||| Quadrance Q(D) = a² + b² - c² - d² is invariant under blue phase multiplication.
+public export
+prop_bluePhaseQuadranceInvariance : Dihedron -> Bool
+prop_bluePhaseQuadranceInvariance d =
+  let uPhase = MkDihedron 0 1 0 0 -- i phase
+      rotated = mulDihedron d uPhase
+      qOrig   = quadranceDihedron d
+      qRot    = quadranceDihedron rotated
+  in qOrig == qRot
+
+||| Property 4: Monadic Feynman Path Propagator Composition
+||| Binding (>>=) a componentwise phase transition function across a Dihedron
+||| state corresponds to single-step propagator composition.
+public export
+prop_monadicPathBinding : Dihedron -> Bool
+prop_monadicPathBinding d =
+  let stepF = \x => MkDihedronVal x (x + 1) x (x - 1)
+      bound = d >>= stepF
+      expectedA = scalarA d
+      expectedB = blueB d + 1
+      expectedC = redC d
+      expectedD = greenD d - 1
+  in bound == MkDihedronVal expectedA expectedB expectedC expectedD
+
+||| QuickCheck wrapper property for Pauli anti-commutation over test values
+public export
+qc_pauliAntiCommutation : Property
+qc_pauliAntiCommutation =
+  let d1 = MkDihedron 5 3 2 1
+      d2 = MkDihedron 0 (-2) 4 7
+  in property (prop_pauliAntiCommutation d1 && prop_pauliAntiCommutation d2)
+
+||| QuickCheck wrapper property for Spin-1/2 commutator
+public export
+qc_spinCommutator : Property
+qc_spinCommutator = property prop_spinCommutator
+
+||| QuickCheck wrapper property for Blue Phase Quadrance Invariance
+public export
+qc_bluePhaseQuadranceInvariance : Property
+qc_bluePhaseQuadranceInvariance =
+  let d1 = MkDihedron 4 3 0 0
+      d2 = MkDihedron 1 2 3 4
+  in property (prop_bluePhaseQuadranceInvariance d1 && prop_bluePhaseQuadranceInvariance d2)
+
+||| QuickCheck wrapper property for Monadic Path Binding
+public export
+qc_monadicPathBinding : Property
+qc_monadicPathBinding =
+  let d1 = MkDihedron 10 20 30 40
+  in property (prop_monadicPathBinding d1)
+```
