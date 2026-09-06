@@ -1,0 +1,17 @@
+package idris2-Dihedron-Wiki
+version = 0.2.0
+executable = dihedronwiki
+
+depends = base, linear, idris2-QuickCheck
+        , Idris2-Multiset-Core
+        , Idris2-Multiset-Transform
+        , Idris2-Geometry
+        , idris2-Dihedron
+
+sourcedir = "Library/Wiki"
+
+modules = Dihedrons_And_Infinitesimals,
+          Product_And_Chain_Rules,
+          Finite_Field_Calculus
+
+main = Main
