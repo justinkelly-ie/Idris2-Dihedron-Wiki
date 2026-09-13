@@ -1,10 +1,48 @@
-# 📐 Idris2-Dihedron-Wiki
+# Idris2-Dihedron-Wiki
 
-Literate documentation and verification suite for 4D Dihedron algebra and algebraic infinitesimals, based on Norman Wildberger's *Famous Math Problems* (FMP 21a–d & 22a–d).
+[![Idris 2 Verification](https://img.shields.io/badge/Idris_2-0.8.0-blue.svg)](https://www.idris-lang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## 📚 Chapters
+**Literate Verification Suite & Specification Manual for Layer 3d (`Idris2-Dihedron`)**
 
-- **[📐 Dihedrons, Complex Numbers, and Infinitesimals](Library/Wiki/Dihedrons_And_Infinitesimals.md)** — Blue, Red, Green sub-algebras and dual complex numbers ($a + b\varepsilon$).
-- **[🧮 Product and Chain Rules](Library/Wiki/Product_And_Chain_Rules.md)** — Algebraic calculus without limits derived from nilpotency ($\varepsilon^2 = 0$).
-- **[🔬 Infinitesimal Calculus over Finite Fields](Library/Wiki/Finite_Field_Calculus.md)** — Double-zero tangent criterion and curve geometry over $\mathbb{F}_p$.
-- **[⚛️ Quantum Mechanics over Discrete Dihedrons](Library/Wiki/QuantumMechanicsAlgebra.md)** — Pauli anti-commutativity ($ZX = -XZ$), Spin-1/2 commutator ($[i, j] = -2k$), blue quadrance conservation, and monadic Feynman path integrals (`>>=`).
+`Idris2-Dihedron-Wiki` provides formal compile-time macro reflection proofs, QuickCheck property test suites, and literate Markdown specifications for **Layer 3d** of the non-linear discrete multiset physical law ecosystem.
+
+---
+
+## 📚 Specification Chapters & Verification Modules
+
+### 1. `Library/Wiki/Dihedrons_And_Infinitesimals.md` & `Library/Wiki/Product_And_Chain_Rules.md`
+- **Algebra & Homomorphisms:** Specifications for 4D Clifford hypercomplex algebra ($a + bi + cj + dk$), dihedral group actions, product and chain rules over discrete fields.
+- **Verification:** QuickCheck property tests validating hypercomplex product associativity, norm multiplicative identity, and metric splitting.
+
+### 2. `Library/Wiki/Finite_Field_Calculus.md` & `Library/Wiki/QuantumMechanicsAlgebra.md`
+- **Algebra & Homomorphisms:** Finite field differential calculus, discrete derivatives over hypercomplex planes, and quantum mechanical state representations.
+
+### 3. `Library/Wiki/Main.idr`
+- **Verification Runner:** Literate Idris 2 test runner executing compile-time `%macro` reflection proofs and QuickCheck property test suites for Layer 3d (`dihedronwiki`).
+
+---
+
+## 🚀 Verification & Build
+
+To compile the literate verification suite and execute the test runner binary:
+
+```bash
+idris2 --build Idris2-Dihedron-Wiki.ipkg
+./build/exec/dihedronwiki
+```
+
+---
+
+## 🏗️ 10-Layer Ecosystem Architecture
+
+1. `Idris2-Multiset-Core` / `Idris2-Multiset-Core-Wiki` (Layer 1: Flat Primitives)
+2. `Idris2-Multiset-Transform` / `Idris2-Multiset-Transform-Wiki` (Layer 2: Fields & Scale Functors)
+3. `Idris2-Multiset-Binary` / `Idris2-Multiset-Binary-Wiki` (Layer 2b: Boolean Field Engines)
+4. `Idris2-Multiset-Ternary` / `Idris2-Multiset-Ternary-Wiki` (Layer 2c: Balanced Ternary Sifting)
+5. `Idris2-Geometry` / `Idris2-Geometry-Wiki` (Layer 3: Emergent Metric Geometry)
+6. `Idris2-Physics` / `Idris2-Physics-Wiki` (Layer 3b/6: Physical Conservation Laws)
+7. `Idris2-Hadron` / `Idris2-Hadron-Wiki` (Layer 4b: Standard Model Confinement)
+8. `Idris2-Chemistry` / `Idris2-Chemistry-Wiki` (Layer 5b: Molecular Kinetics)
+9. `Idris2-Biology` / `Idris2-Biology-Wiki` (Layer 6: Biological Hierarchies & Active Inference)
+10. `Idris2-Universe` / `Idris2-Universe-Wiki` (Layer 10: Cosmic Motive & Master Audit)
