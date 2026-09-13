@@ -1,6 +1,6 @@
 package idris2-Dihedron-Wiki
 version = 0.2.0
-executable = dihedronwiki
+executable = dihedron-wiki
 
 depends = base, linear, idris2-QuickCheck
         , Idris2-Multiset-Core
