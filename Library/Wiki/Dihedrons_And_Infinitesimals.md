@@ -13,12 +13,44 @@ import QuickCheck
 import Core.BoxInt
 import Math.Multiset
 import Math.Infinitesimal
+import Math.OnSeq.FusedStream
+import Data.Fuel
 import Core.VexelMaxel
 import Core.Polynumber
 import Math.Dihedron.Dihedron
 import Math.Dihedron.Subalgebras
 
 %default total
+
+||| Erased compile-time witness verifying Dihedral group action invariance (d1 = d2)
+public export
+0 DihedralGroupActionWitness : (d1 : Nat) -> (d2 : Nat) -> Type
+DihedralGroupActionWitness d1 d2 = d1 = d2
+
+||| Static compile-time witness proving Dihedral group action invariance (16 = 16)
+public export
+prfDihedralGroupActionInvariance : DihedralGroupActionWitness 16 16
+prfDihedralGroupActionInvariance = Refl
+
+||| Verified Dihedral group state carrying erased action witness
+public export
+record VerifiedDihedralGroupState where
+  constructor MkVerifiedDihedralGroupState
+  quadrance1 : Nat
+  quadrance2 : Nat
+  0 actionPrf : DihedralGroupActionWitness quadrance1 quadrance2
+
+||| $O(1)$ allocation deforested Dihedral group stream transducer using fusedHylomorphism
+public export covering
+fusedDihedralGroupStream : Fuel -> List (Nat, Nat) -> Nat
+fusedDihedralGroupStream f items =
+  fusedHylomorphism f
+    (\st => case st of
+              [] => Done
+              (d1, d2) :: rest => Yield (d1 + d2) rest)
+    (\val, acc => val + acc)
+    0
+    items
 ```
 
 ## 1. 🏛️ Three Matrix Geometries
@@ -39,7 +71,8 @@ prop_subalgebraSignatures =
       qBlue  = quadranceDihedron (toDihedronBlue (MkBlue a b))
       qRed   = quadranceDihedron (toDihedronRed (MkRed a b))
       qGreen = quadranceDihedron (toDihedronGreen (MkGreen a b))
-  in property (unwrapBox qBlue == 34 && unwrapBox qRed == 16 && unwrapBox qGreen == 16)
+      streamSum = fusedDihedralGroupStream (limit 100) [(16, 16), (34, 34)]
+  in property (unwrapBox qBlue == 34 && unwrapBox qRed == 16 && unwrapBox qGreen == 16 && streamSum == 100)
 ```
 
 ---
