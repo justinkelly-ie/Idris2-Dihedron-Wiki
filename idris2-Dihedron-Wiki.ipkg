@@ -10,5 +10,5 @@ modules = Wiki.Dihedrons_And_Infinitesimals,
           Wiki.Product_And_Chain_Rules,
           Wiki.QuantumMechanicsAlgebra
 
-main = Main
+main = Wiki.Main
 executable = dihedronwiki
