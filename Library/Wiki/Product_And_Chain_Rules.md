@@ -7,7 +7,7 @@
 ---
 
 ```idris
-module Product_And_Chain_Rules
+module Wiki.Product_And_Chain_Rules
 
 import QuickCheck
 import Core.BoxInt

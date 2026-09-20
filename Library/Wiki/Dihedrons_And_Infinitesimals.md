@@ -7,7 +7,7 @@
 ---
 
 ```idris
-module Dihedrons_And_Infinitesimals
+module Wiki.Dihedrons_And_Infinitesimals
 
 import QuickCheck
 import Core.BoxInt

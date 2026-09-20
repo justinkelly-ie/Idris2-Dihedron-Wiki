@@ -1,11 +1,11 @@
-module Main
+module Wiki.Main
 
 import QuickCheck
 import Data.String
-import Dihedrons_And_Infinitesimals
-import Product_And_Chain_Rules
-import Finite_Field_Calculus
-import QuantumMechanicsAlgebra
+import Wiki.Dihedrons_And_Infinitesimals
+import Wiki.Product_And_Chain_Rules
+import Wiki.Finite_Field_Calculus
+import Wiki.QuantumMechanicsAlgebra
 
 %default covering
 
@@ -29,28 +29,28 @@ main = do
   putStrLn "Starting Idris2-Dihedron-Wiki QuickCheck Suite...\n"
   
   putStrLn "Running Test 1: Subalgebra Metric Signatures"
-  let res1 = quickCheck Dihedrons_And_Infinitesimals.prop_subalgebraSignatures
+  let res1 = quickCheck Wiki.Dihedrons_And_Infinitesimals.prop_subalgebraSignatures
 
   putStrLn "Running Test 2: Dual Derivative Theorem"
-  let res2 = quickCheck Dihedrons_And_Infinitesimals.prop_dualDerivativeTheorem
+  let res2 = quickCheck Wiki.Dihedrons_And_Infinitesimals.prop_dualDerivativeTheorem
 
   putStrLn "Running Test 3: Algebraic Product Rule"
-  let res3 = quickCheck Product_And_Chain_Rules.prop_productRuleAlgebraic
+  let res3 = quickCheck Wiki.Product_And_Chain_Rules.prop_productRuleAlgebraic
 
   putStrLn "Running Test 4: Tangent Vector Readout"
-  let res4 = quickCheck Finite_Field_Calculus.prop_tangentVectorReadout
+  let res4 = quickCheck Wiki.Finite_Field_Calculus.prop_tangentVectorReadout
 
   putStrLn "Running Test 5: Pauli Anti-Commutativity Law"
-  let res5 = quickCheck QuantumMechanicsAlgebra.qc_pauliAntiCommutation
+  let res5 = quickCheck Wiki.QuantumMechanicsAlgebra.qc_pauliAntiCommutation
 
   putStrLn "Running Test 6: Spin-1/2 Commutator Law"
-  let res6 = quickCheck QuantumMechanicsAlgebra.qc_spinCommutator
+  let res6 = quickCheck Wiki.QuantumMechanicsAlgebra.qc_spinCommutator
 
   putStrLn "Running Test 7: Blue Phase Quadrance Invariance"
-  let res7 = quickCheck QuantumMechanicsAlgebra.qc_bluePhaseQuadranceInvariance
+  let res7 = quickCheck Wiki.QuantumMechanicsAlgebra.qc_bluePhaseQuadranceInvariance
 
   putStrLn "Running Test 8: Monadic Feynman Path Propagator Composition"
-  let res8 = quickCheck QuantumMechanicsAlgebra.qc_monadicPathBinding
+  let res8 = quickCheck Wiki.QuantumMechanicsAlgebra.qc_monadicPathBinding
 
   let tableStr = markdownTable [
         ("Subalgebra Signatures", "Verifies Blue, Red, Green metric quadrances.", res1),

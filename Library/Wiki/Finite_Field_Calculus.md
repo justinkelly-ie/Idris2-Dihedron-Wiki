@@ -7,7 +7,7 @@
 ---
 
 ```idris
-module Finite_Field_Calculus
+module Wiki.Finite_Field_Calculus
 
 import QuickCheck
 import Core.BoxInt

@@ -3,7 +3,7 @@
 This observation module formally verifies the quantum mechanical properties of the discrete 4D `Dihedron` algebra ($D = a + bi + cj + dk$), demonstrating that its categorical interfaces (`Functor`, `Applicative`, `Monad`) and algebraic instances (`Semigroup`, `Monoid`, `Num`, `Neg`) satisfy the laws of quantum operators, spin commutators, and monadic path propagation.
 
 ```idris
-module QuantumMechanicsAlgebra
+module Wiki.QuantumMechanicsAlgebra
 
 import public Math.Dihedron.Dihedron
 import public Math.Dihedron.Subalgebras
