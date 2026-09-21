@@ -26,7 +26,7 @@ markdownTable results =
 partial
 main : IO ()
 main = do
-  putStrLn "Starting Idris2-Dihedron-Wiki QuickCheck Suite...\n"
+  putStrLn "Starting FinSc-Dihedron-Wiki QuickCheck Suite...\n"
   
   putStrLn "Running Test 1: Subalgebra Metric Signatures"
   let res1 = quickCheck Wiki.Dihedrons_And_Infinitesimals.prop_subalgebraSignatures
@@ -65,4 +65,4 @@ main = do
 
   putStrLn "\n--- Test Results ---"
   putStrLn tableStr
-  putStrLn "Idris2-Dihedron-Wiki tests complete!"
+  putStrLn "FinSc-Dihedron-Wiki tests complete!"

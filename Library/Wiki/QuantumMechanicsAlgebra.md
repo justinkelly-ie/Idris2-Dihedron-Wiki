@@ -9,6 +9,7 @@ import public Math.Dihedron.Dihedron
 import public Math.Dihedron.Subalgebras
 import public Core.BoxInt
 import public QuickCheck
+import Data.Fuel
 
 %default total
 
@@ -63,6 +64,19 @@ prop_monadicPathBinding d =
       expectedD = greenD d - 1
   in bound == MkDihedronVal expectedA expectedB expectedC expectedD
 
+||| Property 5: Deforested Fused Feynman Path Propagator Equivalence
+||| Verifies multi-step Pauli spinor path propagation via fusedComputePauliPathPropagator.
+public export covering
+prop_fusedPauliPathPropagator : Bool
+prop_fusedPauliPathPropagator =
+  let initialSpinor = MkPauliSpinor (MkDihedron 1 0 0 0) (MkDihedron 0 1 0 0)
+      uPhase1 = MkDihedron 0 1 0 0 -- i phase
+      uPhase2 = MkDihedron 0 1 0 0 -- i phase (i * i = -1)
+      finalSpinor = fusedComputePauliPathPropagator (limit 100) initialSpinor [uPhase1, uPhase2]
+      expectedSpinUp = MkDihedron (-1) 0 0 0
+      expectedSpinDown = MkDihedron 0 (-1) 0 0
+  in spinUp finalSpinor == expectedSpinUp && spinDown finalSpinor == expectedSpinDown
+
 ||| QuickCheck wrapper property for Pauli anti-commutation over test values
 public export
 qc_pauliAntiCommutation : Property
@@ -84,10 +98,10 @@ qc_bluePhaseQuadranceInvariance =
       d2 = MkDihedron 1 2 3 4
   in property (prop_bluePhaseQuadranceInvariance d1 && prop_bluePhaseQuadranceInvariance d2)
 
-||| QuickCheck wrapper property for Monadic Path Binding
-public export
+||| QuickCheck wrapper property for Monadic & Fused Path Binding
+public export covering
 qc_monadicPathBinding : Property
 qc_monadicPathBinding =
   let d1 = MkDihedron 10 20 30 40
-  in property (prop_monadicPathBinding d1)
+  in property (prop_monadicPathBinding d1 && prop_fusedPauliPathPropagator)
 ```
